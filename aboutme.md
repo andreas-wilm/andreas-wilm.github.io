@@ -4,13 +4,11 @@ title: About me
 subtitle: Why you'd want to go on a date with me
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+Me elsewhere:
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+### [Google Scholar](https://scholar.google.com/citations?user=V8Ueo9cAAAAJ)
+### [Microsoft Academic](https://academic.microsoft.com/profile/5gjhgf2i-04h4-4654-ejge-f315fiehh811/AndreasWilm/publication)
+### [Twitter](https://twitter.com/me_myself_andy)
+### [LinkedIn](https://www.linkedin.com/in/andreas-wilm/)
+### [Github](https://github.com/andreas-wilm)
 
-What else do you need?
-
-### my history
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
