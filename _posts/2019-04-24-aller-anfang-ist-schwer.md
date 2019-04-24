@@ -12,7 +12,7 @@ Well, hello!
 
 I started this blog to write about Cloud computing, Research
 and Frickeleien (a wonderful [word from the Rhineland](https://upload.wikimedia.org/wikipedia/commons/b/b5/De-frickeln.ogg)).
-All posts are meant to help me digesting all the wonderful things I learn. Some
+Posts are mainly meant to help me digesting the cool things I learned. Some
 of them will hopefully be helpful to others.
 
 Happy frickeling!
