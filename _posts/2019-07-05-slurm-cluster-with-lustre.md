@@ -212,4 +212,4 @@ The scripts in the [dingo-compute template](https://github.com/andreas-wilm/cycl
 
 ## ssh-key vs passwords
 
-You need an ssh-key to log into the CycleCloud VM and cluster, even though you are given the option to use a password during the setup process. Do not use a password!
+You need (in almost all cases) an ssh-key to log into the CycleCloud VM and cluster, even though you are given the option to use a password during the setup process. Always use an ssh-key!
