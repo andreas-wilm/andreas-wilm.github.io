@@ -10,8 +10,8 @@ comments: true
 
 I recently had the immense pleasure to work on a project with Astrophysicists at [ICRAR](https://www.icrar.org/) in Perth. These folks need some serious compute power to massage the ocean of data that their telescopes produce. Normally this type of analysis is a first-class application for supercomputing centers, however, supercomputing centers are often oversubscribed, can't easily be upgraded and you need to download data that's produced by radio astronomy centers all over the world. So the cloud, with access to always up-to-date hardware and international presence, is a perfect alternative for them. On Azure we're fortunate enough to have true HPC infrastructure, e.g. RDMA over InfiniBand and a variety of [HPC specific instance types](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-hpc?toc=%2Fazure%2Fvirtual-machines%2Fwindows%2Ftoc.json), including the latest [HB and HC instances](https://azure.microsoft.com/en-us/blog/introducing-the-new-hb-and-hc-azure-vm-sizes-for-hpc/), which were [recently used to spin up a petascale cluster](https://techcommunity.microsoft.com/t5/Azure-Compute/Petascale-Computing-on-Azure/ba-p/708197).
 
-In this blog post, I summarize the steps needed to create a Slurm/MPI compute cluster with Lustre as storage backend on Azure. The easiest way to do this is by using [Azure CycleCloud](https://azure.microsoft.com/en-us/features/azure-cyclecloud/). Azure CycleCloud allows you to "create, manage, operate, and optimize HPC and big compute clusters of any scale". One important feature is autoscaling, which adds more nodes to the cluster as the job queue grows, but also removes nodes once the job queue is empty. So you get instant scale, but also only pay for what you really need. For a more general introduction to CycleCloud, refer to the [documentation](https://docs.microsoft.com/en-us/azure/cyclecloud/overview). CycleCloud is generally available since August 2018 and supports several schedulers, storage clusters systems and applications out of the box. Unfortunately a Lustre template is not part of that yet and Lustre is also not yet available as service on Azure. Having said this, BeeGFS (a very good alternative) is supported out of the box by CycleCloud. 
-For an excellent summary and benchmark of parallel virtual filesystems refer to [this document by the Azure CAT team](https://blogs.msdn.microsoft.com/azurecat/2018/06/11/azurecat-ebook-parallel-virtual-file-systems-on-microsoft-azure/). 
+In this blog post, I summarize the steps needed to create a Slurm/MPI compute cluster with Lustre as storage backend on Azure. The easiest way to do this is by using [Azure CycleCloud](https://azure.microsoft.com/en-us/features/azure-cyclecloud/). Azure CycleCloud allows you to "create, manage, operate, and optimize HPC and big compute clusters of any scale". One important feature is autoscaling, which adds more nodes to the cluster as the job queue grows, but also removes nodes once the job queue is empty. So you get instant scale, but also only pay for what you really need. For a more general introduction to CycleCloud, refer to the [documentation](https://docs.microsoft.com/en-us/azure/cyclecloud/overview). CycleCloud is generally available since August 2018 and supports several schedulers, storage clusters systems and applications out of the box. Unfortunately a Lustre template is not part of that yet and Lustre is also not yet available as service on Azure. Having said this, BeeGFS (a very good alternative) is supported out of the box by CycleCloud.
+For an excellent summary and benchmark of parallel virtual filesystems refer to [this document by the Azure CAT team](https://blogs.msdn.microsoft.com/azurecat/2018/06/11/azurecat-ebook-parallel-virtual-file-systems-on-microsoft-azure/).
 
 In this blog-post, I'll cover the following:
 1. [Setting up CycleCloud](#cyclecloud-setup)
@@ -76,14 +76,14 @@ One last thing: you will likely get a warning regarding the SSL certificate for 
 # Lustre Storage Cluster
 
 CycleCloud supports a number of storage clusters out of the box (including BeeGFS), but for this project I needed to create a Lustre cluster. Luckily [Hugo Meiland](https://github.com/hmeiland) has already created a corresponding CycleCloud project and [shared it on Github](https://github.com/hmeiland/cyclecloud-lustre). This makes use of the local NVMe drives of the L\_v2 nodes ([not yet available in all regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=virtual-machines)), i.e. no premium disks need to be attached to the Lustre Object Storage Nodes, as for example done in the [Parallel Virtual File Systems Benchmark on Azure](https://azure.microsoft.com/mediahandler/files/resourcefiles/parallel-virtual-file-systems-on-microsoft-azure/PVFS%20on%20Azure%20Guide.pdf).
- 
- 
+
+
  To make this cluster project available in your CycleCloud instance, you will have to upload the project and then import its template. But first make sure to initialize the CycleCloud instance (only needs to be done once).
- 
+
 To do that ssh into your CycleCloud server and run:
 
     cyclecloud initialize
-    
+
 Make sure to change the default URL from `http://localhost:8080` to `https://localhost`, otherwise you will get cryptic error messages including java.lang.NullPointerException and HTTP error 500. This populates the `.cycle` directory and if that's missing, the following upload step will fail with 
 
 
@@ -179,7 +179,7 @@ Sometimes node initialization can fail during the software installation phase. F
 
 To benchmark the Lustre throughput I ran [IOR](http://wiki.lustre.org/IOR) as described in the [Parallel File Systems benchmark by the Azure CAT team](https://blogs.msdn.microsoft.com/azurecat/2018/06/11/azurecat-ebook-parallel-virtual-file-systems-on-microsoft-azure/). I used the numbers in Table 4 as baseline to compare against results I got with 1, 2 and 8 OSS nodes, keeping all other parameters the same: 32 MB transfer size, 4 GB block size, 16 processes, 5 clients (here: Standard\_F16). The exact command was:
 
-    mpiexec --hostfile hosts -np 16  /shared/bin/ior -a MPIIO -v -B  -F -r -w -t 32m  -b 4G -o /lustre/test.`/usr/bin/date +%Y-%m-%d_%H-%M-%S`
+    mpiexec --hostfile hosts -np 16  /shared/bin/ior -a MPIIO -v -B  -F -r -w -t 32m -b 4G -o /lustre/test.`/usr/bin/date +%Y-%m-%d_%H-%M-%S`
 
 It's important to note that the disk setups differ: the CAT benchmark used 10 P30 managed disks converted to RAID 0 per OSS node and, whereas the setup described here uses the one local NVMe disk of the L instances used as OSS nodes.
 
@@ -189,5 +189,26 @@ The read throughput scales as expected with each added OSS nodes, however it's o
 
 To be continued...
 
+# Notes added after publishing
 
+## Cycle version
 
+The Cycle version used here was 7.7
+
+## Lustre locking
+
+The default behaviour of Lustre cluster is to not allow locking. This can be changed by remounting with flock as option. The following snippet enables locking:
+
+    sudo umount /lustre
+    sed -i -e '/lustre/s/defaults/defaults,flock/' /etc/fstab; 
+    sudo mount /lustre;
+
+This can for example be added to the startup scripts of the dingo-compute template, e.g. specs/default/cluster-init/scripts/00_setup_lustre_perms.sh
+
+## Hardcoded user names in templates
+
+The scripts in the dingo-compute template all assume that your cycle user was called `cycleadmin`.
+
+## ssh-key vs passwords
+
+You need an ssh-key to log into the CycleCloud VM and cluster. During the setup you are given the option to use a password instead. Do not use a password!
