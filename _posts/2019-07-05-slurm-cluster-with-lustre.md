@@ -20,6 +20,7 @@ In this blog-post, I'll cover the following:
 1. [Gotchas](#common-problems)
 1. [Throughput Benchmark](#lustre-throughput-benchmark)
 
+Please take note of the [comments section](#notes-added-after-publishing) added after publishing.
 
 # CycleCloud Setup
 
@@ -199,16 +200,16 @@ The Cycle version used here was 7.7
 
 The default behaviour of Lustre cluster is to not allow locking. This can be changed by remounting with flock as option. The following snippet enables locking:
 
-    sudo umount /lustre
+    umount /lustre
     sed -i -e '/lustre/s/defaults/defaults,flock/' /etc/fstab; 
-    sudo mount /lustre;
+    mount /lustre;
 
-This can for example be added to the startup scripts of the dingo-compute template, e.g. specs/default/cluster-init/scripts/00_setup_lustre_perms.sh
+This can for example be added to the startup scripts of the [dingo-compute template](https://github.com/andreas-wilm/cyclecloud-dingo-compute), e.g. `specs/default/cluster-init/scripts/00_setup_lustre_perms.sh`
 
 ## Hardcoded user names in templates
 
-The scripts in the dingo-compute template all assume that your cycle user was called `cycleadmin`.
+The scripts in the [dingo-compute template](https://github.com/andreas-wilm/cyclecloud-dingo-compute) all assume that your cycle user was called `cycleadmin`.
 
 ## ssh-key vs passwords
 
-You need an ssh-key to log into the CycleCloud VM and cluster. During the setup you are given the option to use a password instead. Do not use a password!
+You need an ssh-key to log into the CycleCloud VM and cluster, even though you are given the option to use a password during the setup process. Do not use a password!
