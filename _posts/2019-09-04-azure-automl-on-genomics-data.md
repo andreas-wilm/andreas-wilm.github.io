@@ -23,7 +23,7 @@ The notebook covers:
 - Interpretation of the model
 
 You can find the notebook here as [HTML rendered Notebook](/data/vcf-classification-04092019.html)
-or [Jupyter Notebook](/data/vcf-classification-04092019.ipynb).
+or on Github as [Jupyter Notebook](https://github.com/andreas-wilm/automl-with-genomicsdata/blob/master/automl-on-variants.ipynb).
 
 This was fun and I hope the workshop participants will like this exercise.
 
