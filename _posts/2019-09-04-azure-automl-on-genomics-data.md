@@ -14,7 +14,8 @@ AutoML basically takes care of the  time-consuming, iterative tasks of ML model 
 
 Initially I had planned to just use the AutoML [Visual Interface](https://azure.microsoft.com/en-in/blog/simplifying-ai-with-automated-ml-no-code-web-interface/) in the Azure Portal, so that I (and later the workshop participants) would not have to write any code. Unfortunately, the [variant call format (vcf)](https://en.wikipedia.org/wiki/Variant_Call_Format) is not really suitable for this. It usually has thousands of columns and the visual interface tries to preview all columns/features, which of course doesn't work at that scale. So instead I ran the analysis on an Azure ML Notebook VM using the AutoML Python API. 
 
-I also decided to create my own input data: faked variant calls from a number of individuals and a limited number of sites, so that I could complete any analysis just on the Notebook VM. I made multiple sites "causal" and furthermore introduced a gender bias. The input data creation is scripted in the notebook itself and can be easily rerun to create new data with different features. The notebook shows how, with a few lines of Python, the AutoML system produces a highly performant model that picked the correct causal sites and gender as decisive factors for predicting a phenotype. The input data is obviously not fully representative of real data, but the capabilities of the AutoML platform are nicely demonstrated.
+I also decided to create my own input data: faked variant calls from a number of individuals and a limited number of sites, so that I could complete any analysis just on the Notebook VM. I made multiple sites "causal" and furthermore introduced a gender bias. The input data creation is scripted in the notebook itself and can be easily rerun to create new data with different features. The notebook shows how, with a few lines of Python, the AutoML system produces a highly performant model that picked the correct causal sites and gender as decisive factors for predicting a phenotype. The input data is obviously not fully representative of real data, but the capabilities of the AutoML platform are nicely demonstrated. This was fun and I hope the workshop participants will like this exercise.
+
 
 The notebook covers:
 - Input data generation
@@ -23,8 +24,15 @@ The notebook covers:
 - Interpretation of the model
 
 You can find the notebook here as [HTML rendered Notebook](/data/vcf-classification-04092019.html)
-or on Github as [Jupyter Notebook](https://github.com/andreas-wilm/automl-with-genomicsdata/blob/master/automl-on-variants.ipynb).
+or on Github as [Jupyter Notebook](https://github.com/andreas-wilm/automl-with-genomicsdata/blob/master/automl-on-variants.ipynb). Unfortunately neither of these shows the AutoML widgets imported from the Azure Portal, so I added screenshots below:
 
-This was fun and I hope the workshop participants will like this exercise.
+#### AutoML Run Details
+
+![AutoML Run Details Screenshot](/img/2019-09-04-automl-rundetails.png)
+
+#### Explanation Dashboard
+
+![CycleCloud Lustre GUI](/img/2019-09-04-automl-explanation-dashboard.png)
+
 
 
