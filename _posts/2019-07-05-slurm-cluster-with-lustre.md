@@ -53,7 +53,7 @@ For logging into the CycleCloud VM and cluster you will need an ssh-key pair. If
 
 ## Install CycleCloud
 
-You can install CycleCloud [manually]((https://docs.microsoft.com/en-us/azure/cyclecloud/installation)) or by using an ARM template (as used in the [Quickstart](https://docs.microsoft.com/en-us/azure/cyclecloud/quickstart-install-cyclecloud#deploy-azure-cyclecloud)). The third and easiest option is to use the image from the Azure Marketplace.
+You can install CycleCloud [manually](https://docs.microsoft.com/en-us/azure/cyclecloud/installation) or by using an ARM template (as used in the [Quickstart](https://docs.microsoft.com/en-us/azure/cyclecloud/quickstart-install-cyclecloud#deploy-azure-cyclecloud)). The third and easiest option is to use the image from the Azure Marketplace.
 
 For the Marketplace installation, go to the Azure Portal, click on "Create Resource" and search for "Azure CycleCloud". Click on the only search result and then "Create". This will lead you to the normal process of creating a VM. Make sure to pick a region that supports the L\_v2 nodes, which are required for the Lustre configuration used here. If the default instance type (D4s\_v3) for the CycleCloud server appears a bit oversized, you can go with a smaller one (D2s\_v3) instead. Enter machine name and details for your admin account and launch the VM. Once deployed, it's a good idea to go to the resource and configure a DNS name to make your life easier. Otherwise you will need to remember the public IP (which will change after every restart) to log in. 
 
