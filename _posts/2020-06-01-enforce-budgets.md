@@ -1,4 +1,13 @@
-# Enforcing Budgets by automatically shutting down resources
+---
+layout: post
+title: Enforcing Budgets by automatically shutting down resources
+#subtitle: Exploring AutoML
+#gh-repo: daattali/beautiful-jekyll
+#gh-badge: [star, fork, follow]
+#tags: [test]
+comments: true
+---
+
 
 This post was written jointly with [Auda Eltahla](https://www.linkedin.com/in/auda-eltahla), the regional Microsoft research engagement manager for ANZ.
 
