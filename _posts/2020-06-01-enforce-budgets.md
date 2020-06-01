@@ -106,7 +106,7 @@ Now, that these modules are installed, you can add the code:
 
 **2.** Open the newly created Runbook, copy and paste [this PowerShell code](code/killrgvm.ps1) and hit save. 
 
-#### Testing the Runbook
+#### Test the Runbook
 ---
 
 To make sure that everything works as expected, you can try out the Runbook without attaching it to an ActionGroup and budget. Let's see our Runbook in action:
@@ -127,7 +127,7 @@ To make sure that everything works as expected, you can try out the Runbook with
 **5.** When ready, hit `Start`. The script waits for each VM to shutdown properly, so if you have multiple VMs running, it will take some time to complete.
 
 
-#### Creating an Action Group
+#### Create an Action Group
 ---
 If everything works as expected, you are now ready to connect the pieces.
 In particular, you will add the Runbook to an Action Group, which will be triggered once a budget limit is hit. 
@@ -153,7 +153,7 @@ In particular, you will add the Runbook to an Action Group, which will be trigge
 
 ![Configure Runbook](/img/2020-06-01-enforce-budgets/configure-runbook_50p.png)
 
-#### Setup Budget
+#### Add Action Group to Budget
 ---
 Now that you have created an ActionGroup, let's associate it with a budget.
 
