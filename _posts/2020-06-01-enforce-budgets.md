@@ -11,6 +11,9 @@ comments: true
 
 This post was written jointly with [Auda Eltahla](https://www.linkedin.com/in/auda-eltahla), the Microsoft Research Engagement Manager for the Asia region.
 
+The content is based on [this excellent blog post by Sam Cogan](https://samcogan.com/enforce-bugets-with-azure-automation/), which contains further notes on how to use locking to prevent subsequent changes (e.g. reactivation) of shut down resources.
+
+
 ## Overview
 ---
 One concern when using Azure for research purposes is how to ensure the workload runs within an allocated, fixed budget. [Azure Cost Management and Billing](https://azure.microsoft.com/en-au/services/cost-management/) provides an excellent suite of tools to monitor and manage spending. However, while it provides excellent alerting tools, it does not natively support shutting down resources once a budget threshold is met. In this tutorial we will demonstrate how to overcome this issue by using budget alerts to initiate an automation script that shuts down all VMs in a specific resource group. You can of course change this script to shut down any resource or delete an entire resource group and thus all resources tied to it.
@@ -168,9 +171,5 @@ Now that you have created an ActionGroup, let's associate it with a budget.
 
 The action group, which contains the PowerShell script that shuts down the VMs, will now be triggered as soon as your budget hits the set threshold.
 
-And this is it folks.
+And that's it.
 
-
-## Acknowledgements
-
-This content is based on [this excellent blog post by Sam Cogan](https://samcogan.com/enforce-bugets-with-azure-automation/), which contains further notes on how to use locking to prevent subsequent changes (e.g. reactivation) of shut down resources.
