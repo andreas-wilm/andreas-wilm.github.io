@@ -9,13 +9,13 @@ comments: true
 ---
 
 
-This post was written jointly with [Auda Eltahla](https://www.linkedin.com/in/auda-eltahla), the regional Microsoft research engagement manager for ANZ.
+This post was written jointly with [Auda Eltahla](https://www.linkedin.com/in/auda-eltahla), the Microsoft Research Engagement Manager for the Asia region.
 
 ## Overview
 ---
 One concern when using Azure for research purposes is how to ensure the workload runs within an allocated, fixed budget. [Azure Cost Management and Billing](https://azure.microsoft.com/en-au/services/cost-management/) provides an excellent suite of tools to monitor and manage spending. However, while it provides excellent alerting tools, it does not natively support shutting down resources once a budget threshold is met. In this tutorial we will demonstrate how to overcome this issue by using budget alerts to initiate an automation script that shuts down all VMs in a specific resource group. You can of course change this script to shut down any resource or delete an entire resource group and thus all resources tied to it.
 
-This tutorial provides a way to address concerns related to very strict budget limitations. It is highly recommended that [Azure Cost Management and Billing](https://azure.microsoft.com/en-au/services/cost-management/) be used as a default for budget monitoring and management since it provides a rich suite of tools and integration with other Azure services.
+This post provides a way to address concerns related to very strict budget limitations. It is highly recommended that [Azure Cost Management and Billing](https://azure.microsoft.com/en-au/services/cost-management/) be used as a default for budget monitoring and management since it provides a rich suite of tools and integration with other Azure services.
 
 <!--
 We will use a few Azure services / concepts in this tutorial:
@@ -37,7 +37,7 @@ While writing this post, an article on how to [manage Costs with Azure Budgets w
 ## Prerequisites
 ---
 
-- For later steps we will assume that you have an Azure budget set up. 
+- For later steps we will assume that you have an Azure budget already set up. 
 If you don't already have one, [follow the official tutorial](https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets) to create a budget.
 - Please note that budgets are not supported in sponsored or CSP subscriptions.
 <!-- Note that we will set the scope of the budget to be our resource group of interest. That way we can allocate different budgets to different research projects for example. -->
@@ -58,7 +58,7 @@ A Service Principal (SP) is an identity that is used by user-created apps and to
 
 **3.** Give your created SP Contributor access to your subscription. To achieve this in the Azure Portal, go to `Subscriptions` and `Access Control (IAM)`. Click on `Add a role assignment`, select `Contributor`, search for your SP ("BudgetController" in the screenshot), select it and save.
 
-![Adding SP as Contributor to a subscription](img/2020-06-01-enforce-budgets/sp-sub-contributor_50p.png)
+![Adding SP as Contributor to a subscription](/img/2020-06-01-enforce-budgets/sp-sub-contributor_50p.png)
 
 ### Azure Automation Setup
 ---
@@ -92,7 +92,7 @@ Now we will create a Runbook which holds the code that we want to trigger. In ou
   
 Both modules should now show up under the `Modules` tab, as shown in the screenshot.
 
-![Adding az modules](img/2020-06-01-enforce-budgets/az-modules_50p.png)
+![Adding az modules](/img/2020-06-01-enforce-budgets/az-modules_50p.png)
 
 Now, that these modules are installed, you can add the code:
 
@@ -137,7 +137,7 @@ In particular, you will add the Runbook to an Action Group, which will be trigge
 
 **4.** Add the action which is tied to the Runbook created previously. This is done by adding a name for the action and selecting `Automation Runbook` as `Action Type`.
 
-![Adding an Action Group](img/2020-06-01-enforce-budgets/add-action-group_50p.png)
+![Adding an Action Group](/img/2020-06-01-enforce-budgets/add-action-group_50p.png)
 
 **5.** In the wizard that pops up:
 - Choose `User` as `Runbook source`
@@ -148,7 +148,7 @@ In particular, you will add the Runbook to an Action Group, which will be trigge
 
 <!-- FIXME does the runbook have to be published to be accessible ? -->
 
-![Configure Runbook](img/2020-06-01-enforce-budgets/configure-runbook_50p.png)
+![Configure Runbook](/img/2020-06-01-enforce-budgets/configure-runbook_50p.png)
 
 #### Setup Budget
 ---
@@ -164,7 +164,7 @@ Now that you have created an ActionGroup, let's associate it with a budget.
 
 **5.** Select the action group created above and hit `Save`.
 
-![Edit Budget](img/2020-06-01-enforce-budgets/edit-budget_50p.png)
+![Edit Budget](/img/2020-06-01-enforce-budgets/edit-budget_50p.png)
 
 The action group, which contains the PowerShell script that shuts down the VMs, will now be triggered as soon as your budget hits the set threshold.
 
