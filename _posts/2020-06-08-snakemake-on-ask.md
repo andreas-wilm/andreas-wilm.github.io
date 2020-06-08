@@ -120,7 +120,7 @@ The directory contains only the Snakefile and two conda environment yaml files:
 
 ### Calling Snakemake
 
-We will need to make sure that the Kubernetes nodes have permission to read and write from blob storage. For the AzBlob storage provider in Snakemake this is done through the environment variables `AZ_BLOB_ACCOUNT_URL` and alternatively `AZ_BLOB_CREDENTIAL`.
+We will need to make sure that the Kubernetes nodes have permission to read and write from blob storage. For the AzBlob storage provider in Snakemake this is done through the environment variables `AZ_BLOB_ACCOUNT_URL` and optionally `AZ_BLOB_CREDENTIAL`.
 `AZ_BLOB_ACCOUNT_URL` takes the form `https://<accountname>.blob.core.windows.net` and may also contain a shared access signature, which is a powerful way to define fine grained and even time controlled access to storage. The SAS can be part of the URL, but if it's missing, then you can set it with `AZ_BLOB_CREDENTIAL` or alternatively use the storage account key. To keep things simple we'll use the storage key here, but a SAS is generally more powerful. We'll pass those variables on to the Kubernetes with `--envvars` (see below).
 
 
@@ -217,4 +217,8 @@ and later uploaded to Dockerhub with
     docker tag 47a4072f98b0 andreaswilm/snakemaks:5.17
     docker push andreaswilm/snakemaks:5.17
 
+# Acknowledgements
+
+Huge thanks to
+Haizi Zheng and especially [Johannes Köster](https://github.com/johanneskoester) for their help and patience!
 
