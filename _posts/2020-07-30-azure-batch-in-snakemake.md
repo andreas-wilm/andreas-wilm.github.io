@@ -47,7 +47,7 @@ My current implementation (commit 98b49c8a) does all of the above. However, ther
 
 # Installation and Running
 
-For the brave, here are installation instructions. First install [my azbatch branch]((https://github.com/andreas-wilm/snakemake/tree/azbatch)). Refer to notes in my [previous post](({{ site.baseurl }}{% link _posts/2020-06-08-snakemake-on-ask.md %})) on how to do that with conda (but be sure to use the azbatch branch here).
+For the brave, here are installation instructions. First install [my azbatch branch](https://github.com/andreas-wilm/snakemake/tree/azbatch). Refer to notes in my [previous post]({{ site.baseurl }}{% link _posts/2020-06-08-snakemake-on-ask.md %}) on how to do that with conda (but be sure to use the azbatch branch here).
  
 Then install the required modules `azure-storage-blob` and `azure-batch` in your Snakemake environment.
 
