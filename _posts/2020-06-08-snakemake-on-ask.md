@@ -8,6 +8,8 @@ title: Running Snakemake on an auto-scaling Azure Kubernetes cluster without sha
 comments: true
 ---
 
+**Edit (Aug 2020): This has made it into the official Snakemake documentation. Refer to the [official AKS executor tutorial](https://snakemake.readthedocs.io/en/stable/executor_tutorial/azure_aks.html)**
+
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) and [Nextflow](https://www.nextflow.io/) are two very popular bioinformatics workflow management systems. They allow to write analytics workflows that seamlessly scale, are reproducible, reentrant and make it easy to move between compute systems. They are by no means restricted to Bioinformatics, but that's where both originated. 
  In this blog post I will show how to run a workflow on an auto-scaling Azure Kubernetes cluster with on-the-fly software installation and without a shared file-system (e.g. NFS on typical Linux cluster).
@@ -105,7 +107,7 @@ Next, let's fetch the credentials for this cluster, so that we can actually inte
 Now we need the actual Snakefile (download [here](/data/2020-06-08/snakedir.zip)). This Snakefile also defines different conda environments for different tasks, i.e. it installs different programs with specific versions into their own namespace. This is a great way of keeping your software installations tidy and also makes this workflow reproducible. The yaml files describing those environments are part of the package (see download above).
 
     cd /tmp
-    unzip snakedir
+    unzip snakedir.zip
     # creates a new directory called snakedir
     cd snakedir
 
@@ -121,7 +123,7 @@ The directory contains only the Snakefile and two conda environment yaml files:
 ### Calling Snakemake
 
 We will need to make sure that the Kubernetes nodes have permission to read and write from blob storage. For the AzBlob storage provider in Snakemake this is done through the environment variables `AZ_BLOB_ACCOUNT_URL` and optionally `AZ_BLOB_CREDENTIAL`.
-`AZ_BLOB_ACCOUNT_URL` takes the form `https://<accountname>.blob.core.windows.net` and may also contain a shared access signature, which is a powerful way to define fine grained and even time controlled access to storage. The SAS can be part of the URL, but if it's missing, then you can set it with `AZ_BLOB_CREDENTIAL` or alternatively use the storage account key. To keep things simple we'll use the storage key here, but a SAS is generally more powerful. We'll pass those variables on to the Kubernetes with `--envvars` (see below).
+`AZ_BLOB_ACCOUNT_URL` takes the form `https://<accountname>.blob.core.windows.net` and may also contain a shared access signature (SAS), which is a powerful way to define fine grained and even time controlled access to storage. The SAS can be part of the URL, but if it's missing, then you can set it with `AZ_BLOB_CREDENTIAL` or alternatively use the storage account key. To keep things simple we'll use the storage key here, but a SAS is generally more powerful. We'll pass those variables on to the Kubernetes with `--envvars` (see below).
 
 
 Now you are ready to run the analysis:
